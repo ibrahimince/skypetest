@@ -7,12 +7,12 @@
 
 <title>webRTC Test</title>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 <link rel="stylesheet" type="text/css" href="style.css">
 <script src="DetectRTC.js"></script>
 </head>
 <body>
-<div class="container">
+<!-- <div class="container">
 
 <ul>
 
@@ -24,7 +24,42 @@
 <span id="skype"></span>
 <span id="progress"></span>
 
+</div> -->
+
+
+    <form>
+    <h1>Skype Connection Quality Check</h1>
+    <ul>
+       <li> <p id="camera" size="12">
+          
+
+        </p>
+        </li>
+        <li><p id="mic" size="25">
+        
+
+        </p></li>
+        <li><p id="progress">
+          
+
+
+        </p></li>
+        <li><p id="skype">
+    
+
+
+        </p></li>
+
+<!--         <p>
+            <input type="submit" value="SUBMIT" id="submit">
+        </p> -->
+        <div class="center">
+        <div id="logo"> <span class="speedometer"></span>
+    <span class="needle"></span>
+
 </div>
+</div>
+    </form>
 
 
 
@@ -110,17 +145,20 @@ function MeasureConnectionSpeed() {
         var speedBps = (bitsLoaded / duration).toFixed(2);
         var speedKbps = (speedBps / 1024).toFixed(2);
         var speedMbps = (speedKbps / 1024).toFixed(2);
-        /*ShowProgressMessage([
+        ShowProgressMessage([
             "Your connection speed is:", 
             speedBps + " bps", 
             speedKbps + " kbps", 
             speedMbps + " Mbps"
-        ]);*/
-        if (speedMbps >8.00)
+        ]);
+        if (speedMbps >8.00){
         document.getElementById('skype').innerHTML ='The bandwidth requirement for Skype for Business passed...';
-        else
+}
+        else{
          document.getElementById('skype').innerHTML ='The bandwidth requirement for Skype for Business did not pass....';
-document.getElementById('progress').style.visibility = "hidden";
+            document.getElementById("skype").style.color = "#ff0000";}
+             document.getElementById('logo').style.visibility = "hidden";
+/*document.getElementById('progress').style.visibility = "hidden";*/
     }
 
 }
