@@ -1,73 +1,56 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>TestConnection</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="style.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>webRTC Test</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="DetectRTC.js"></script>
 </head>
 <body>
 <div class="container">
-<div id="notes">
+
+<ul>
+
+<li><p id="camera"></p></li>
+<li><p id="mic"></p></li>
+
+
+</ul>
+<span id="skype"></span>
+<span id="progress"></span>
+
 </div>
-<div id="mic">
-</div>
-<div id="progress">
-</div>
-<div id="skype">
-</div>
-</div>
 
 
-<!-- <h1 id="progress">JavaScript is turned off, or your browser is realllllly slow</h1> -->
-<!-- <div id="video-container">
-<video id="camera-stream" width="500" autoplay></video>
-</div> -->
 
- <script type="text/javascript">
-    window.onload = function() {
-    navigator.getUserMedia = (navigator.getUserMedia ||
-                            navigator.webkitGetUserMedia ||
-                            
-                            navigator.mozGetUserMedia ||
-                            navigator.msGetUserMedia);
-    if (navigator.getUserMedia) {
-        navigator.getUserMedia(
-        {
-          video: true
-        },
-        function(localMediaStream) {
-          document.getElementById('notes').innerHTML = '<ul><li>You have a camera avaible!</li></ul>';
+<script type="text/javascript">
 
-        },
-        function(err) {
-          document.getElementById('notes').innerHTML ='<ul><li>You dont have a camera avaible!</li></ul>';
-        }
-        );
-    } 
-
-        if (navigator.getUserMedia) {
-        navigator.getUserMedia(
-        {
-
-          audio: true
-        },
-        function(localMediaStream) {
-          document.getElementById('mic').innerHTML = '<ul><li>You have a microfon avaible!</li></ul>';
-/*          var vid = document.getElementById('camera-stream');
-          vid.src = window.URL.createObjectURL(localMediaStream);*/
-        }, 
-        function(err) {
-          document.getElementById('mic').innerHTML ='<ul><li>You dont have a microfon avaible!</li></ul>';
-        }
-        );
-    } 
+DetectRTC.load(function() {
 
 
-    else {
-      alert('Sorry, your browser does not support getUserMedia');
-    }
-}
+if ( DetectRTC.hasWebcam) {
+    cam = "You have available camera in your machine..";
+} else {
+    cam = "You dont have available camera in your machine..";
+    document.getElementById("camera").style.color = "#ff0000";
+} 
+if ( DetectRTC.hasMicrophone) {
+    microphone = "You have available microphone in your machine..";
+} else {
+    microphone = "You dont have available microphone in your machine..";
+    document.getElementById("mic").style.color = "#ff0000";
+} 
+ document.getElementById("camera").innerHTML = cam;
+ document.getElementById("mic").innerHTML = microphone;
+    });
+
+
+
 
 
 //JUST AN EXAMPLE, PLEASE USE YOUR OWN PICTURE!
@@ -95,7 +78,9 @@ function ShowProgressMessage(msg) {
 function InitiateSpeedDetection() {
     ShowProgressMessage("Testing your internet connection quality...");
     window.setTimeout(MeasureConnectionSpeed, 1);
+
 };    
+
 
 if (window.addEventListener) {
     window.addEventListener('load', InitiateSpeedDetection, false);
@@ -125,19 +110,20 @@ function MeasureConnectionSpeed() {
         var speedBps = (bitsLoaded / duration).toFixed(2);
         var speedKbps = (speedBps / 1024).toFixed(2);
         var speedMbps = (speedKbps / 1024).toFixed(2);
-        ShowProgressMessage([
+        /*ShowProgressMessage([
             "Your connection speed is:", 
             speedBps + " bps", 
             speedKbps + " kbps", 
             speedMbps + " Mbps"
-        ]);
+        ]);*/
         if (speedMbps >8.00)
-        document.getElementById('skype').innerHTML ='<ul><li>The bandwidth requirement for Skype business passed.</li></ul>';
+        document.getElementById('skype').innerHTML ='The bandwidth requirement for Skype for Business passed...';
         else
-         document.getElementById('skype').innerHTML ='<ul><li>The bandwidth requirement for Skype business did not pass.</li></ul>';
+         document.getElementById('skype').innerHTML ='The bandwidth requirement for Skype for Business did not pass....';
+document.getElementById('progress').style.visibility = "hidden";
     }
+
 }
 </script>
-
 </body>
 </html>
