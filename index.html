@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset=UTF-8>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="DetectRTC.js"></script>
+</head>
+<body>
+<div class="container">
+  <div class="jumbotron">
+    <h2>Skype for Business</h2>
+    <h3>Connectivity test</h3>
+    <img src="./img/dilogo.png" alt="logo" vspace="20" class="dilogo"/>
+  </div>
+  <div class="content">
+
+        <li class="lii"> <p id="camera" size="12">
+        </p>
+        </li>
+        <li class="lii"><p id="mic" size="25">
+        </p></li>
+        <li class="lii"><p id="skype">
+        </p></li>
+        <div class="speed">
+        <li class="speedo" ><p id="progress">
+        </p></li>
+        <li><p class="ping"></p></li>
+        </div>
+        <div class="loader"></div>
+      <div class="inline">  
+    <div class="StartSkypeforBusiness">
+    <p><a href="sip:SKYPEALIAS@skypeids.net" class="cssbuttongo">
+         Start Skype for Business
+    </a><a><span title="Dette link åbner jeres skype for business app hvis den er installeret i computeren. Mangler du skype for busines , clik på linket Hent skype for busines." class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></p>
+    </div>
+
+
+    <p class="hentskype-for-business"><a href="https://login.microsoftonline.com/login.srf?wa=wsignin1.0&rpsnv=4&ct=1478953421&rver=6.7.6640.0&wp=MCMBI&wreply=https%3a%2f%2fportal.office.com%2flanding.aspx%3ftarget%3d%252fdefault.aspx%253fculture%253dda-DK%2526Country%253dDK&lc=1030&id=501392&msafed=0&client-request-id=d5c38d41-d6de-4e8e-987c-ec6325f724a4" target="_blank">Hent skype for business<span class="glyphicon glyphicon-download" aria-hidden="true"></span></a></p>
+     <li class="Skype-modeappen"> <p><a href="https://join.microsoft.com/meet/a-osorte/HP8SLJTD" target="_blank">
+         Skype-mødeappen
+    </a><a><span title="Hvis du ikke har desktopversionen af Skype for Business eller ikke har en Skype for Business-konto, kan du bruge Skype for Business Web App til at deltage i et Skype-møde fra din browser." class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></p></li>
+
+  </div>
+    </div>
+    <div class="footer">
+     <hr>
+            <div class="row">
+        <div class="col-lg-12">
+            <ul class="nav nav-pills nav-justified">
+                <li><a href="http://di.dk/Pages/Forsiden.aspx" target="_blank">© DI.</a></li>
+                <li><a href="#" target="_blank">OM APPEN</a></li>
+                <li><a href="#" target="_blank">PERSONDATA</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+</div>
+<script>
+
+DetectRTC.load(function() {
+
+
+if ( DetectRTC.hasWebcam) {
+    cam = "You have available camera in your machine.";
+} else {
+
+    cam = "You dont have available camera in your machine.";
+    document.getElementById("camera").style.color = "#FFA500";
+    /*document.getElementsByTagName("li")[0].removeAttribute("class");*/
+    document.getElementsByTagName("li")[0].setAttribute("class","li camera");
+} 
+if ( DetectRTC.hasMicrophone) {
+    microphone = "You have available microphone in your machine.";
+} else {
+    microphone = "You dont have available microphone in your machine.";
+    document.getElementById("mic").style.color = "#FFA500";
+     document.getElementsByTagName("li")[1].removeAttribute("class");
+     document.getElementsByTagName("li")[1].setAttribute("class","li mic");
+
+       
+} 
+ document.getElementById("camera").innerHTML = cam;
+ document.getElementById("mic").innerHTML = microphone;
+
+    });
+
+var imageAddr = "http://www.w3schools.com/css/trolltunga.jpg"; 
+var downloadSize = 3866111; //bytes
+
+function ShowProgressMessage(msg) {
+    if (console) {
+        if (typeof msg == "string") {
+            console.log(msg);
+        } else {
+            for (var i = 0; i < msg.length; i++) {
+                console.log(msg[i]);
+            }
+        }
+    }
+    var oProgress = document.getElementById("progress");
+    if (oProgress) {
+        var actualHTML = (typeof msg == "string") ? msg : msg.join("<br />");
+        oProgress.innerHTML = actualHTML;
+    }
+}
+
+function InitiateSpeedDetection() {
+    ShowProgressMessage("Testing your internet connection quality...");
+    /*document.getElementClassName("div loader").style.display = 'initial';*/
+    document.getElementsByTagName("li")[2].removeAttribute("class");
+    window.setTimeout(MeasureConnectionSpeed, 3000);
+};    
+if (window.addEventListener) {
+    window.addEventListener('load', InitiateSpeedDetection, false);
+} else if (window.attachEvent) {
+    window.attachEvent('onload', InitiateSpeedDetection);
+}
+function MeasureConnectionSpeed() {
+    var startTime, endTime;
+    var download = new Image();
+    download.onload = function () {
+        endTime = (new Date()).getTime();
+        showResults();
+    }    
+    download.onerror = function (err, msg) {
+        document.getElementById('progress').style.color = "#FFA500";
+        ShowProgressMessage("Please check your internet connection!");
+        document.getElementsByTagName("li")[2].removeAttribute("class");
+    }    
+    startTime = (new Date()).getTime();
+    var cacheBuster = "?nnn=" + startTime;
+    download.src = imageAddr + cacheBuster;
+    function showResults() {
+        var duration = (endTime - startTime) / 1000;
+        var bitsLoaded = downloadSize * 8;
+        var speedBps = (bitsLoaded / duration).toFixed(2);
+        var speedKbps = (speedBps / 1024).toFixed(2);
+        var speedMbps = (speedKbps / 1024).toFixed(2);
+        ShowProgressMessage([
+            "Download speed "+ 
+            speedMbps + " mbps."
+        ]);
+        if (speedMbps >4.00){
+          document.getElementsByTagName("li")[2].setAttribute("class","lii skype");
+        document.getElementById('skype').innerHTML ='The bandwidth required by Skype for Business passed.';
+
+
+}
+        else{
+            document.getElementsByTagName("li")[2].setAttribute("class","li skype");
+         document.getElementById('skype').innerHTML ='The bandwidth required by Skype for Business did not pass.';
+            document.getElementById('skype').style.color = "#FFA500";
+            document.getElementsByTagName("li")[2].removeAttribute("class");
+            /*document.getElementsByTagName("li")[2].setAttribute("class","li skype");*/
+        }
+
+    }
+}
+
+
+var arrTimes = [];
+var i = 0; // start
+var timesToTest = 5;
+var tThreshold = 150; //ms
+var testImage = "http://dev02.rackpeople.com/fare.jpg"; // small image in your server
+var dummyImage = new Image();
+var isConnectedFast = false;
+
+testLatency(function(avg){
+    isConnectedFast = (avg <= tThreshold);
+    /** output */
+/*    document.body.appendChild(
+    document.createTextNode("Ping time: " + (avg.toFixed(2)) + "ms - isConnectedFast? " + isConnectedFast)
+    );*/
+
+      document.querySelector('.ping').appendChild(
+    document.createTextNode(", ping time "+ (avg.toFixed(0))+ "millisecond." )
+    );
+
+
+
+});
+
+/** test and average time took to download image from server, called recursively timesToTest times */
+function testLatency(cb) {
+    var tStart = new Date().getTime();
+    if (i<timesToTest-1) {
+        dummyImage.src = testImage + '?t=' + tStart;
+        dummyImage.onload = function() {
+            var tEnd = new Date().getTime();
+            var tTimeTook = tEnd-tStart;
+            arrTimes[i] = tTimeTook;
+            testLatency(cb);
+            i++;
+        };
+    } else {
+        /** calculate average of array items then callback */
+        var sum = arrTimes.reduce(function(a, b) { return a + b; });
+        var avg = sum / arrTimes.length;
+        cb(avg);
+    }
+} 
+
+    </script>
+<script src="jquery.js"></script>
+
+<script src="script.js"></script>
+<script src="ping.min.js"></script>
+
+</body>
+</html>
+
+
