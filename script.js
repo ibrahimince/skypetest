@@ -8,7 +8,7 @@
         $(".loader").show();
     timer = setTimeout(function () {
         $('.loader').hide(2100);
-    }, 3000);
+    }, 6000);
 
  /*          $(".Testingconnectivity").show();
     timer = setTimeout(function () {
