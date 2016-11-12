@@ -9,7 +9,10 @@
     timer = setTimeout(function () {
         $('.loader').hide(2100);
     }, 6000);
-
+         $("li .ping").hide();
+    timer = setTimeout(function () {
+        $('li .ping').show(2100);
+    }, 3000);
  /*          $(".Testingconnectivity").show();
     timer = setTimeout(function () {
         $('.Testingconnectivity').hide(2100);
